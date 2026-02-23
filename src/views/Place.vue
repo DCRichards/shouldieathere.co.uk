@@ -93,6 +93,9 @@ import MobileIcon from '@/assets/images/icons/mobile.svg';
 import PubIcon from '@/assets/images/icons/pub.svg';
 import RestaurantIcon from '@/assets/images/icons/restaurant.svg';
 import TakeawayIcon from '@/assets/images/icons/takeaway.svg';
+import BurgerIcon from '@/assets/images/icons/burger.svg';
+import ChickenIcon from '@/assets/images/icons/chicken.svg';
+import KebabIcon from '@/assets/images/icons/kebab.svg';
 
 import RatingNa from '@/assets/images/ratings/na.svg';
 import RatingZero from '@/assets/images/ratings/0.svg';
@@ -122,6 +125,17 @@ export default {
     CStamp,
   },
 
+  methods: {
+    hasKeywords(words) {
+      if (!this.place) {
+        return false;
+      }
+
+      const name = this.place.BusinessName.toLowerCase();
+      return words.some((w) => name.includes(w));
+    },
+  },
+
   computed: {
     ...mapGetters('places', ['place']),
     ...mapState('places', ['loading']),
@@ -137,12 +151,30 @@ export default {
     },
 
     typeIcon() {
-      const isCafe = ['caffe', 'cafe', 'coffee']
-        .some((w) => this.place.BusinessName.toLowerCase().includes(w));
+      const isBurger = this.hasKeywords(['burger', 'mcdonalds']);
+      const isCafe = this.hasKeywords(['caffe', 'cafe', 'coffee']);
+      const isChicken = this.hasKeywords(['chicken', 'nandos', 'kfc']);
+      const isKebab = this.hasKeywords(['kebab']);
+
+      if (isBurger) {
+        return BurgerIcon;
+      }
+
+      if (isKebab) {
+        return KebabIcon;
+      }
+
+      if (isCafe) {
+        return CafeIcon;
+      }
+
+      if (isChicken) {
+        return ChickenIcon;
+      }
 
       switch (this.place.BusinessTypeID) {
         case 1:
-          return isCafe ? CafeIcon : RestaurantIcon;
+          return RestaurantIcon;
         case 7843:
           return PubIcon;
         case 7844:
@@ -289,9 +321,9 @@ export default {
 
 .stamp__icon {
   color: $basalt;
-  height: 24px;
+  height: 32px;
   margin-right: 10px;
-  width: 24px;
+  width: 32px;
 }
 
 .type-stamp {

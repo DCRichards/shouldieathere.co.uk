@@ -1,8 +1,9 @@
-version: "3.7"
 services:
   web:
     build: .
     tty: true
+    environment:
+      NODE_OPTIONS: --openssl-legacy-provider
     volumes:
       - ./:/usr/src/app
       - /usr/src/app/node_modules

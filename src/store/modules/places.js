@@ -39,7 +39,8 @@ export default {
     async search({ commit, state }, {
       name, address, page = 1, perPage = 20,
     }) {
-      const alreadyLoaded = state.query.name === name
+      const alreadyLoaded = state.query
+        && state.query.name === name
         && state.query.address === address
         && state.pagination.page === page
         && state.pagination.perPage === perPage;
