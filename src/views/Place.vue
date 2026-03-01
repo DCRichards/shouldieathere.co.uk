@@ -189,34 +189,42 @@ export default {
     },
 
     noRating() {
-      const keys = [
+      return [
         constants.FHRS_AWAITING_INSPECTION,
+        constants.FHRS_CY_AWAITING_INSPECTION,
+        constants.FHRS_CY_RATING_AWAITED,
         constants.FHIS_AWAITING_INSPECTION,
         constants.FHRS_EXEMPT,
-      ];
-      return keys.includes(this.place.RatingKey);
+        constants.FHRS_CY_EXEMPT,
+        constants.FHIS_EXEMPT,
+      ].includes(this.place.RatingKey);
     },
 
     ratingImage() {
       switch (this.place.RatingKey) {
         case constants.FHRS_0:
+        case constants.FHRS_CY_0:
           return RatingZero;
         case constants.FHRS_1:
+        case constants.FHRS_CY_1:
           return RatingOne;
         case constants.FHRS_2:
+        case constants.FHRS_CY_2:
           return RatingTwo;
         case constants.FHRS_3:
+        case constants.FHRS_CY_3:
           return RatingThree;
         case constants.FHRS_4:
+        case constants.FHRS_CY_4:
           return RatingFour;
         case constants.FHRS_5:
+        case constants.FHRS_CY_5:
           return RatingFive;
         case constants.FHIS_PASS:
+        case constants.FHIS_PASS_EAT_SAFE:
           return RatingPass;
         case constants.FHIS_IMPROVEMENT_REQUIRED:
           return RatingImprove;
-        case constants.FHRS_AWAITING_INSPECTION:
-        case constants.FHIS_AWAITING_INSPECTION:
         default:
           return RatingNa;
       }
@@ -237,23 +245,33 @@ export default {
 
       switch (this.place.RatingKey) {
         case constants.FHRS_0:
+        case constants.FHRS_CY_0:
           return this.$t('ratings.0');
         case constants.FHRS_1:
+        case constants.FHRS_CY_1:
           return this.$t('ratings.1');
         case constants.FHRS_2:
+        case constants.FHRS_CY_2:
           return this.$t('ratings.2');
         case constants.FHIS_IMPROVEMENT_REQUIRED:
         case constants.FHRS_3:
+        case constants.FHRS_CY_3:
           return this.$t('ratings.3');
         case constants.FHRS_4:
+        case constants.FHRS_CY_4:
           return this.$t('ratings.4');
         case constants.FHIS_PASS:
+        case constants.FHIS_PASS_EAT_SAFE:
         case constants.FHRS_5:
+        case constants.FHRS_CY_5:
           return this.$t('ratings.5');
         case constants.FHRS_EXEMPT:
+        case constants.FHRS_CY_EXEMPT:
           return this.$t('ratings.exempt');
-        case constants.FHRS_AWAITING_INSPECTION:
         case constants.FHIS_AWAITING_INSPECTION:
+        case constants.FHRS_AWAITING_INSPECTION:
+        case constants.FHRS_CY_AWAITING_INSPECTION:
+        case constants.FHRS_CY_RATING_AWAITED:
           return this.$t('ratings.unknown');
         default:
           return base;
