@@ -65,12 +65,15 @@
 </template>
 
 <script>
+import VueRouter from 'vue-router';
 import feather from 'feather-icons';
 import { mapState } from 'vuex';
 import { address as addressMixin } from '@/mixins';
 import CLoading from '@/components/core/Loading.vue';
 import CButton from '@/components/core/Button.vue';
 import InputText from '@/components/core/InputText.vue';
+
+const { isNavigationFailure, NavigationFailureType } = VueRouter;
 
 export default {
   props: {
@@ -113,6 +116,11 @@ export default {
 
   methods: {
     update() {
+      if (this.newName !== this.name || this.newAddress !== this.address) {
+        // Reset page on a new search
+        this.newPage = 1;
+      }
+
       this.$router.replace({
         path: '/places/search',
         query: {
@@ -120,6 +128,12 @@ export default {
           address: this.newAddress,
           page: this.newPage,
         },
+      }).catch((f) => {
+        // Catch and ignore duplicate route errors as this
+        // can happen if the user clicks search again
+        if (!isNavigationFailure(f, NavigationFailureType.duplicated)) {
+          throw Error(f);
+        }
       });
     },
 
